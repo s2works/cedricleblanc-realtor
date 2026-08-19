@@ -28,8 +28,14 @@ This is a duplicate of the Danie Gagnon realtor landing page, adapted for Cédri
 ## ⚠️ Still to configure before launch
 
 - **Contact form:** the form `action` in `index.html` is set to `https://formspree.io/f/YOUR_FORM_ID` — create a Formspree form (or similar service) for Cédric and paste the real endpoint in.
-- **Listings feed:** `SHEET_ID` in `script.js` is set to `YOUR_SHEET_ID`, so the Listings section currently shows sample data. Publish a Google Sheet of Cédric's listings and paste its ID in to go live.
 - **"See all of my listings" link:** currently points to `https://www.exitmoncton.ca/Cedric-LeBlanc` (his brokerage profile page) — replace with his direct `properties_for_agent/<id>/all` listings URL if you have his agent ID.
+
+## Listings feed
+
+The Listings section pulls live from a published Google Sheet, same as the Danie Gagnon site. `SHEET_ID` in `script.js` points to:
+<https://docs.google.com/spreadsheets/d/1fBBEdocjds6n-AdynnDR4zNJjWU0p0-0zPu_AkQpFBs/edit>
+
+For it to load, the sheet must be shared as "Anyone with the link — Viewer", and the first tab needs a header row with (any of, case-insensitive): `status`, `price`, `address`, `city`, `province`, `postal code`, `beds`, `baths`, `sqft`, `image`, `link`, `featured`, `order`. If the sheet is private or the fetch fails, the section silently falls back to sample listing cards.
 
 ## Contact details on the page
 
