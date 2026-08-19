@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Photo placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%" stop-color="#0e1c2b"/>
+      <stop offset="50%" stop-color="#1b2c3d"/>
+      <stop offset="100%" stop-color="#2a4258"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <circle cx="400" cy="430" r="230" fill="none" stroke="#c9a86a" stroke-width="2" opacity="0.35"/>
+  <text x="400" y="470" font-family="Georgia, 'Times New Roman', serif" font-size="220" fill="#c9a86a" text-anchor="middle" opacity="0.9">CL</text>
+  <text x="400" y="900" font-family="Arial, sans-serif" font-size="28" letter-spacing="4" fill="#f6f2ea" text-anchor="middle" opacity="0.55">PHOTO PLACEHOLDER</text>
+</svg>
