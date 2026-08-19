@@ -597,7 +597,7 @@ body.menu-open::before {
 /* Hover/click edges that rotate the carousel */
 .listings__edge {
   position: absolute;
-  top: 0.75rem; bottom: 3.5rem;
+  top: 0; bottom: 0;
   width: 9%;
   min-width: 56px;
   border: 0;
