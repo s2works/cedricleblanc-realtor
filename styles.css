@@ -1034,7 +1034,6 @@ body.menu-open::before {
   .stats__grid { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; }
   .stat:nth-child(odd)::before,
   .stat + .stat::before { display: none; }
-  .areas__grid { grid-template-columns: repeat(2, 1fr); }
   .services__grid { grid-template-columns: repeat(2, 1fr); }
   .approach__grid { grid-template-columns: repeat(2, 1fr); }
   .contact__grid { grid-template-columns: 1fr; }
