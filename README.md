@@ -8,7 +8,7 @@ This is a duplicate of the Danie Gagnon realtor landing page, adapted for Cédri
 ## Highlights
 
 - **Single-page, no build step** — plain HTML/CSS/JS, deploys anywhere (Vercel, Netlify, GitHub Pages, any static host).
-- **Sleek, on-brand design** — EXIT teal + teal-ink + cream palette, Fraunces / Manrope typography, EXIT Realty logo on dark sections.
+- **Sleek, modern design** — graphite black + brass bronze + stone palette, Oswald / Manrope typography, EXIT Realty logo on dark sections.
 - **Smooth section transitions** — scroll-reveal animations, animated stat counters, hero parallax & zoom, sticky nav, scroll-progress bar.
 - **Services section** — the 4 services from Cédric's current site (Homes for Sale, Home Evaluation, Buyers Guide, Sellers Guide).
 - **Listings CTA** — a section linking out to Cédric's EXIT Realty profile page (kept current by the brokerage).
