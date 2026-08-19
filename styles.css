@@ -157,9 +157,9 @@ h1, h2, h3 {
               backdrop-filter 0.5s var(--ease);
 }
 .nav.scrolled::before {
-  background: rgba(239, 238, 236, 0.92);
+  background: rgba(20, 22, 26, 0.92);
   backdrop-filter: saturate(1.4) blur(14px);
-  box-shadow: 0 1px 0 var(--line);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.08);
 }
 .nav__inner {
   max-width: var(--container);
@@ -199,27 +199,24 @@ body.menu-open::before {
   font-weight: 600;
   letter-spacing: 0.3px;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--paper);
 }
 .brand__sub {
   font-size: 0.64rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: rgba(255,255,255,0.7);
   font-weight: 600;
 }
-.nav:not(.scrolled) .brand__name { color: var(--paper); }
-.nav:not(.scrolled) .brand__sub { color: rgba(255,255,255,0.7); }
 
 .nav__links { display: flex; align-items: center; gap: 2rem; }
 .nav__links a {
   font-size: 0.92rem;
   font-weight: 600;
-  color: var(--ink);
+  color: rgba(255,255,255,0.92);
   position: relative;
   transition: color 0.3s var(--ease);
 }
-.nav:not(.scrolled) .nav__links a { color: rgba(255,255,255,0.92); }
 .nav__links a:not(.nav__cta)::after {
   content: "";
   position: absolute;
@@ -253,11 +250,10 @@ body.menu-open::before {
 }
 .nav__toggle span {
   width: 26px; height: 2px;
-  background: var(--ink);
+  background: var(--paper);
   border-radius: 2px;
   transition: transform 0.4s var(--ease), opacity 0.3s var(--ease), background 0.3s;
 }
-.nav:not(.scrolled) .nav__toggle span { background: var(--paper); }
 .nav__toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav__toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .nav__toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
@@ -1110,8 +1106,8 @@ body.menu-open::before {
   .approach__steps { grid-template-columns: 1fr; gap: 2rem; }
   .approach__step p { max-width: none; }
   .about__list { grid-template-columns: 1fr; }
-  .hero__actions { width: 100%; }
-  .hero__actions .btn { flex: 1; min-width: 0; }
+  .hero__actions { width: 100%; flex-direction: column; }
+  .hero__actions .btn { width: 100%; }
   .hero { padding-top: 6rem; }
   .hero__lead { font-size: 1rem; }
   /* Darker overlay on phones so the centered text stays legible */
