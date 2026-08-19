@@ -698,10 +698,6 @@ body.menu-open::before {
 
 .listings__empty { text-align: center; color: var(--muted); font-size: 1.05rem; padding: 2rem 0; }
 
-/* Card entrance (cards injected after load get .reveal too) */
-.listing.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
-.listing.reveal.in { opacity: 1; transform: none; }
-
 /* Tablet: show 2 per row, still scrollable */
 @media (max-width: 900px) {
   .listings__grid { grid-auto-columns: calc((100% - 1.6rem) / 2); }

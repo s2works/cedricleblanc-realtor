@@ -242,7 +242,7 @@
       // Location line: "City, Province  ·  Postal"
       var place = [it.city, it.province].filter(Boolean).join(", ");
       if (it.postal) { place += (place ? " · " : "") + it.postal; }
-      return '<article class="listing reveal">' +
+      return '<article class="listing">' +
           openTag +
             '<img src="' + esc(img) + '" alt="' + esc(it.address || "Listing") + '" loading="lazy" />' +
             status +
@@ -267,7 +267,6 @@
       }
       if (emptyEl) emptyEl.hidden = true;
       listingsGrid.innerHTML = items.map(card).join("");
-      registerReveal(Array.prototype.slice.call(listingsGrid.querySelectorAll(".reveal")));
       updateEdges();
     }
 
