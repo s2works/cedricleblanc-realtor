@@ -5,8 +5,8 @@
 
 :root {
   /* Palette: graphite black · EXIT teal · stone */
-  --ink:        #14161a;
-  --ink-soft:   #21252b;
+  --ink:        #22252b;
+  --ink-soft:   #2d3138;
   --accent:        #00acbc;  /* EXIT brand teal */
   --accent-deep:   #008c9a;
   --accent-bright: #44c2d2;  /* brighter teal highlight */
@@ -21,8 +21,8 @@
   --font-sans:  "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --radius: 10px;
-  --shadow: 0 24px 60px -28px rgba(20, 22, 26, 0.5);
-  --shadow-sm: 0 12px 30px -18px rgba(20, 22, 26, 0.45);
+  --shadow: 0 24px 60px -28px rgba(34, 37, 43, 0.5);
+  --shadow-sm: 0 12px 30px -18px rgba(34, 37, 43, 0.45);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --container: 1200px;
 }
@@ -157,7 +157,7 @@ h1, h2, h3 {
               backdrop-filter 0.5s var(--ease);
 }
 .nav.scrolled::before {
-  background: rgba(20, 22, 26, 0.92);
+  background: rgba(34, 37, 43, 0.92);
   backdrop-filter: saturate(1.4) blur(14px);
   box-shadow: 0 1px 0 rgba(255,255,255,0.08);
 }
@@ -175,7 +175,7 @@ body.menu-open::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: rgba(10, 11, 13, 0.6);
+  background: rgba(22, 24, 28, 0.65);
   z-index: 880;
 }
 
@@ -281,8 +281,8 @@ body.menu-open::before {
 .hero__overlay {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse at center, rgba(20,22,26,0.5) 0%, rgba(20,22,26,0.76) 70%, rgba(20,22,26,0.88) 100%),
-    linear-gradient(to top, rgba(20,22,26,0.88), transparent 55%);
+    radial-gradient(ellipse at center, rgba(34,37,43,0.5) 0%, rgba(34,37,43,0.76) 70%, rgba(34,37,43,0.88) 100%),
+    linear-gradient(to top, rgba(34,37,43,0.88), transparent 55%);
 }
 .hero__content {
   position: relative;
@@ -354,7 +354,7 @@ body.menu-open::before {
   overflow: hidden;
   aspect-ratio: 4 / 5;
   box-shadow: var(--shadow);
-  background: linear-gradient(155deg, var(--ink) 0%, var(--ink-soft) 50%, #33383f 100%);
+  background: linear-gradient(155deg, var(--ink) 0%, var(--ink-soft) 50%, #3b4048 100%);
 }
 .about__img {
   width: 100%;
@@ -493,7 +493,7 @@ body.menu-open::before {
   position: absolute;
   bottom: 0; left: 0; right: 0;
   padding: 2.2rem 1.2rem 0.9rem;
-  background: linear-gradient(to top, rgba(20,22,26,0.88), transparent);
+  background: linear-gradient(to top, rgba(34,37,43,0.88), transparent);
   color: var(--paper);
   font-family: var(--font-serif);
   font-size: 1.7rem;
@@ -562,7 +562,7 @@ body.menu-open::before {
   width: 9px; height: 9px;
   border-radius: 50%;
   border: 0;
-  background: rgba(20,22,26,0.2);
+  background: rgba(34,37,43,0.2);
   cursor: pointer;
   padding: 0;
   transition: width 0.4s var(--ease), background 0.4s var(--ease);
@@ -725,7 +725,7 @@ body.menu-open::before {
   overflow: hidden;
   padding: clamp(4.5rem, 10vw, 8rem) clamp(1.25rem, 5vw, 4rem);
   background:
-    linear-gradient(120deg, rgba(20,22,26,0.93), rgba(20,22,26,0.8)),
+    linear-gradient(120deg, rgba(34,37,43,0.93), rgba(34,37,43,0.8)),
     url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=70") center/cover no-repeat;
 }
 .cta__overlay {
@@ -833,7 +833,7 @@ body.menu-open::before {
 .area::after {
   content: "";
   position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(to top, rgba(20,22,26,0.88) 5%, rgba(20,22,26,0.15) 70%);
+  background: linear-gradient(to top, rgba(34,37,43,0.88) 5%, rgba(34,37,43,0.15) 70%);
 }
 .area:hover::before { transform: scale(1.1); }
 .area h3 { font-size: 1.9rem; text-transform: uppercase; }
@@ -1011,7 +1011,7 @@ body.menu-open::before {
 .contact__logo { width: 168px; height: auto; margin-top: 2.4rem; opacity: 0.9; }
 
 /* ---------- Footer ---------- */
-.footer { background: #0a0b0d; color: rgba(255,255,255,0.7); }
+.footer { background: #16181c; color: rgba(255,255,255,0.7); }
 .footer__inner {
   max-width: var(--container);
   margin-inline: auto;
@@ -1113,8 +1113,8 @@ body.menu-open::before {
   /* Darker overlay on phones so the centered text stays legible */
   .hero__overlay {
     background:
-      linear-gradient(to bottom, rgba(20,22,26,0.65) 0%, rgba(20,22,26,0.8) 100%),
-      radial-gradient(ellipse at center, rgba(20,22,26,0.4) 0%, rgba(20,22,26,0.75) 100%);
+      linear-gradient(to bottom, rgba(34,37,43,0.65) 0%, rgba(34,37,43,0.8) 100%),
+      radial-gradient(ellipse at center, rgba(34,37,43,0.4) 0%, rgba(34,37,43,0.75) 100%);
   }
   .about__badge { right: 8px; bottom: -18px; padding: 0.7rem 0.9rem; }
   .about__badge-logo { width: 92px; }
