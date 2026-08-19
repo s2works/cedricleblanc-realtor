@@ -861,6 +861,32 @@ body.menu-open::before {
 .approach__card h3 { font-size: 1.5rem; color: var(--ink); margin-bottom: 0.6rem; }
 .approach__card p { color: var(--muted); font-size: 0.95rem; margin: 0; }
 
+/* ---------- Services ---------- */
+.services__head { text-align: center; margin-bottom: 3rem; }
+.services__head .eyebrow { display: inline-flex; }
+.services__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.4rem;
+}
+.services__card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 2rem 1.6rem;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+.services__card:hover { transform: translateY(-6px); box-shadow: var(--shadow-sm); }
+.services__icon {
+  width: 2.6rem;
+  height: 2.6rem;
+  color: var(--accent);
+  margin-bottom: 1.1rem;
+}
+.services__icon svg { width: 100%; height: 100%; }
+.services__card h3 { font-size: 1.5rem; color: var(--ink); margin-bottom: 0.6rem; }
+.services__card p { color: var(--muted); font-size: 0.95rem; margin: 0; }
+
 /* ---------- Contact ---------- */
 .contact { background: var(--ink); color: var(--cream); max-width: none; }
 .contact__grid {
@@ -1003,6 +1029,7 @@ body.menu-open::before {
   .stat:nth-child(odd)::before,
   .stat + .stat::before { display: none; }
   .areas__grid { grid-template-columns: repeat(2, 1fr); }
+  .services__grid { grid-template-columns: repeat(2, 1fr); }
   .approach__grid { grid-template-columns: repeat(2, 1fr); }
   .contact__grid { grid-template-columns: 1fr; }
 }
@@ -1050,6 +1077,7 @@ body.menu-open::before {
 }
 
 @media (max-width: 520px) {
+  .services__grid { grid-template-columns: 1fr; }
   .approach__grid { grid-template-columns: 1fr; }
   .about__list { grid-template-columns: 1fr; }
   .hero__actions { width: 100%; }
