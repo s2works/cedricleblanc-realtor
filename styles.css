@@ -276,7 +276,7 @@ body.menu-open::before {
 }
 .hero__bg {
   position: absolute; inset: 0;
-  background: url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+  background: url("hero-living-room.jpg?v=1") center/cover no-repeat;
   transform: scale(1.08);
   will-change: transform;
   animation: heroZoom 18s ease-in-out infinite alternate;
@@ -843,32 +843,46 @@ body.menu-open::before {
 .area h3 { font-size: 1.9rem; text-transform: uppercase; }
 .area span { font-size: 0.9rem; color: rgba(255,255,255,0.82); }
 
-/* ---------- Approach ---------- */
-.approach__head { text-align: center; margin-bottom: 3rem; }
+/* ---------- Approach (dark timeline) ---------- */
+.approach { background: var(--ink); color: var(--cream); max-width: none; }
+.approach__head { max-width: var(--container); margin: 0 auto 3.5rem; text-align: center; }
 .approach__head .eyebrow { display: inline-flex; }
-.approach__grid {
+.approach__steps {
+  position: relative;
+  max-width: var(--container);
+  margin-inline: auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.4rem;
+  gap: 1.4rem 1.8rem;
 }
-.approach__card {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 2rem 1.6rem;
-  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+.approach__steps::before {
+  content: "";
+  position: absolute;
+  top: 26px;
+  left: 0; right: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.16);
+  z-index: 0;
 }
-.approach__card:hover { transform: translateY(-6px); box-shadow: var(--shadow-sm); }
-.approach__icon {
-  font-family: var(--font-serif);
-  font-size: 2.4rem;
-  font-weight: 700;
+.approach__step { position: relative; }
+.approach__num {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 1.5px solid var(--accent);
   color: var(--accent);
-  line-height: 1;
-  margin-bottom: 1rem;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
 }
-.approach__card h3 { font-size: 1.5rem; color: var(--ink); text-transform: uppercase; margin-bottom: 0.6rem; }
-.approach__card p { color: var(--muted); font-size: 0.95rem; margin: 0; }
+.approach__step h3 { font-size: 1.35rem; color: var(--paper); text-transform: uppercase; margin-bottom: 0.6rem; }
+.approach__step p { color: rgba(255,255,255,0.66); font-size: 0.92rem; line-height: 1.6; margin: 0; max-width: 32ch; }
 
 /* ---------- Services ---------- */
 .services__head { text-align: center; margin-bottom: 3rem; }
@@ -1044,7 +1058,8 @@ body.menu-open::before {
   .stat:nth-child(odd)::before,
   .stat + .stat::before { display: none; }
   .services__grid { grid-template-columns: repeat(2, 1fr); }
-  .approach__grid { grid-template-columns: repeat(2, 1fr); }
+  .approach__steps { grid-template-columns: repeat(2, 1fr); gap: 2.4rem 1.8rem; }
+  .approach__steps::before { display: none; }
   .contact__grid { grid-template-columns: 1fr; }
 }
 
@@ -1092,7 +1107,8 @@ body.menu-open::before {
 
 @media (max-width: 520px) {
   .services__grid { grid-template-columns: 1fr; }
-  .approach__grid { grid-template-columns: 1fr; }
+  .approach__steps { grid-template-columns: 1fr; gap: 2rem; }
+  .approach__step p { max-width: none; }
   .about__list { grid-template-columns: 1fr; }
   .hero__actions { width: 100%; }
   .hero__actions .btn { flex: 1; min-width: 0; }
