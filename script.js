@@ -270,19 +270,19 @@
       updateEdges();
     }
 
-    /* ----- Carousel: hover edges rotate, click advances ----- */
+    /* ----- Carousel: click arrows advance one card, wrapping at either end ----- */
     var prevBtn = document.getElementById("listingsPrev");
     var nextBtn = document.getElementById("listingsNext");
-    var hoverRaf = null;
 
     function maxScroll() { return listingsGrid.scrollWidth - listingsGrid.clientWidth; }
 
+    // Arrows stay visible the whole time there's anything to scroll through —
+    // navigation wraps around, so there's no "start" or "end" to hide them at.
     function updateEdges() {
       if (!prevBtn || !nextBtn) return;
-      var max = maxScroll();
-      var x = listingsGrid.scrollLeft;
-      prevBtn.hidden = max <= 4 || x <= 2;
-      nextBtn.hidden = max <= 4 || x >= max - 2;
+      var overflow = maxScroll() > 4;
+      prevBtn.hidden = !overflow;
+      nextBtn.hidden = !overflow;
     }
 
     function cardStep() {
@@ -292,30 +292,20 @@
       return first.getBoundingClientRect().width + gap;
     }
 
-    function startHover(dir) {
-      stopHover();
-      var speed = 9; // px per frame
-      function loop() {
-        listingsGrid.scrollLeft += dir * speed;
-        hoverRaf = requestAnimationFrame(loop);
-      }
-      hoverRaf = requestAnimationFrame(loop);
-    }
-    function stopHover() {
-      if (hoverRaf) { cancelAnimationFrame(hoverRaf); hoverRaf = null; }
-    }
-
     if (prevBtn && nextBtn) {
       [["prev", prevBtn, -1], ["next", nextBtn, 1]].forEach(function (cfg) {
         var btn = cfg[1], dir = cfg[2];
-        btn.addEventListener("mouseenter", function () { startHover(dir); });
-        btn.addEventListener("mouseleave", stopHover);
         btn.addEventListener("click", function () {
-          stopHover();
-          listingsGrid.scrollBy({ left: dir * cardStep(), behavior: "smooth" });
+          var max = maxScroll();
+          if (dir < 0 && listingsGrid.scrollLeft <= 2) {
+            listingsGrid.scrollTo({ left: max, behavior: "smooth" });
+          } else if (dir > 0 && listingsGrid.scrollLeft >= max - 2) {
+            listingsGrid.scrollTo({ left: 0, behavior: "smooth" });
+          } else {
+            listingsGrid.scrollBy({ left: dir * cardStep(), behavior: "smooth" });
+          }
         });
       });
-      listingsGrid.addEventListener("scroll", updateEdges, { passive: true });
       window.addEventListener("resize", updateEdges);
     }
 
