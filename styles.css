@@ -1111,9 +1111,10 @@ body.menu-open::before {
   .approach__steps { grid-template-columns: 1fr; gap: 2rem; }
   .approach__step p { max-width: none; }
   .about__list { grid-template-columns: 1fr; }
-  .hero__actions { width: 100%; flex-direction: column; }
+  .hero__actions { width: 100%; flex-direction: column; margin-bottom: 2.5rem; }
   .hero__actions .btn { width: 100%; }
-  .hero { padding-top: 6rem; }
+  .hero { padding-top: 6rem; padding-bottom: 3rem; }
+  .hero__scroll { bottom: 1.25rem; }
   .hero__lead { font-size: 1rem; }
   /* Darker overlay on phones so the centered text stays legible */
   .hero__overlay {
