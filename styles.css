@@ -822,6 +822,7 @@ body.menu-open::before {
   justify-content: flex-end;
   padding: 1.6rem;
   color: var(--paper);
+  background: var(--ink-soft);
   isolation: isolate;
 }
 .area::before {
