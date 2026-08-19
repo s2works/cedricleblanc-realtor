@@ -1,15 +1,15 @@
 /* ============================================================
    Cédric LeBlanc — REALTOR® landing page
-   Palette: graphite black · brass bronze · stone  (Oswald + Manrope)
+   Palette: graphite black · EXIT teal · stone  (Oswald + Manrope)
    ============================================================ */
 
 :root {
-  /* Palette: graphite black · brass bronze · stone */
+  /* Palette: graphite black · EXIT teal · stone */
   --ink:        #14161a;
   --ink-soft:   #21252b;
-  --accent:        #b8874a;  /* brass / bronze */
-  --accent-deep:   #8f6a37;
-  --accent-bright: #d9ac6c;  /* brighter brass highlight */
+  --accent:        #00acbc;  /* EXIT brand teal */
+  --accent-deep:   #008c9a;
+  --accent-bright: #44c2d2;  /* brighter teal highlight */
   --cream:      #efeeec;
   --cream-2:    #e6e4e0;
   --paper:      #ffffff;
@@ -734,7 +734,7 @@ body.menu-open::before {
 }
 .cta__overlay {
   position: absolute; inset: 0; z-index: -1;
-  background: radial-gradient(circle at 80% 20%, rgba(184,135,74,0.18), transparent 55%);
+  background: radial-gradient(circle at 80% 20%, rgba(0,172,188,0.18), transparent 55%);
 }
 .cta__inner {
   max-width: 760px;
@@ -990,7 +990,7 @@ body.menu-open::before {
   outline: none;
   border-color: var(--accent);
   background: rgba(255,255,255,0.1);
-  box-shadow: 0 0 0 3px rgba(184,135,74,0.18);
+  box-shadow: 0 0 0 3px rgba(0,172,188,0.18);
 }
 .form-status { font-size: 0.9rem; margin: 1rem 0 0; text-align: center; line-height: 1.5; }
 .form-status:empty { display: none; }
