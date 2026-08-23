@@ -1,0 +1,253 @@
+<title>Lead Form Demo</title>
+<style>
+  :root {
+    --ink:        #22252b;
+    --ink-soft:   #2d3138;
+    --accent:     #00acbc;
+    --accent-deep:#008c9a;
+    --cream:      #efeeec;
+    --paper:      #ffffff;
+    --text:       #15171b;
+    --muted:      #5b6066;
+    --line:       rgba(15, 17, 20, 0.12);
+    --font-serif: "Oswald", "Arial Narrow", sans-serif;
+    --font-sans:  "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1.5rem, 5vw, 3rem);
+  }
+
+  .wrap { width: 100%; max-width: 900px; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--accent);
+    padding: 0.4rem 0.8rem;
+    border-radius: 100px;
+    margin-bottom: 1.4rem;
+  }
+  .badge::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    letter-spacing: 0.2px;
+    margin: 0 0 0.6rem;
+    text-wrap: balance;
+  }
+
+  .lede {
+    color: rgba(239,238,236,0.72);
+    max-width: 62ch;
+    margin: 0 0 2.2rem;
+    font-size: 1.02rem;
+  }
+  .lede b { color: var(--cream); font-weight: 700; }
+
+  .panel {
+    background: var(--paper);
+    color: var(--text);
+    border-radius: 12px;
+    padding: clamp(1.6rem, 4vw, 2.4rem);
+    box-shadow: 0 24px 60px -28px rgba(0,0,0,0.5);
+  }
+
+  form { display: grid; gap: 1.15rem; }
+
+  .row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.15rem;
+  }
+  @media (max-width: 560px) {
+    .row2 { grid-template-columns: 1fr; }
+  }
+
+  label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+  label span.opt { color: #9a9fa4; font-weight: 600; text-transform: none; letter-spacing: 0; }
+
+  input, select, textarea {
+    width: 100%;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.75rem 0.9rem;
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  textarea { resize: vertical; min-height: 90px; }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,172,188,0.18);
+  }
+
+  button {
+    justify-self: start;
+    background: var(--accent);
+    color: var(--ink);
+    border: 0;
+    border-radius: 6px;
+    padding: 0.9rem 2rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  button:hover { background: var(--accent-deep); transform: translateY(-2px); }
+  button:disabled { opacity: 0.6; cursor: default; transform: none; }
+
+  .status {
+    margin-top: 1.1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    display: none;
+  }
+  .status.show { display: block; }
+  .status.ok { background: rgba(0,172,188,0.12); color: var(--accent-deep); border: 1px solid rgba(0,172,188,0.3); }
+  .status.err { background: rgba(220,38,38,0.08); color: #b91c1c; border: 1px solid rgba(220,38,38,0.25); }
+
+  .checklist {
+    margin-top: 2.4rem;
+    display: grid;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+    color: rgba(239,238,236,0.68);
+  }
+  .checklist li { list-style: none; display: flex; gap: 0.6rem; }
+  .checklist li::before { content: "→"; color: var(--accent); flex: none; }
+  .checklist { padding: 0; }
+
+  footer {
+    margin-top: 2rem;
+    font-size: 0.82rem;
+    color: rgba(239,238,236,0.45);
+  }
+</style>
+
+<div class="wrap">
+  <span class="badge">Internal demo — not the live site</span>
+  <h1>Lead Form Test Harness</h1>
+  <p class="lede">
+    This mirrors the contact form on Cédric's site. Submit it and two things
+    happen live: a row lands in the connected <b>Google Sheet</b>, and an
+    <b>email notification</b> goes out — the same flow we'd wire into the
+    real site once you sign off.
+  </p>
+
+  <div class="panel">
+    <form id="leadForm">
+      <div class="row2">
+        <div>
+          <label for="name">Your name</label>
+          <input type="text" id="name" name="name" required placeholder="e.g. Jane Doe" />
+        </div>
+        <div>
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" required placeholder="you@email.com" />
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label for="phone">Phone <span class="opt">(optional)</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="(506) 000-0000" />
+        </div>
+        <div>
+          <label for="interest">I'm interested in…</label>
+          <select id="interest" name="interest">
+            <option value="Buying">Buying a home</option>
+            <option value="Selling">Selling a home</option>
+            <option value="Both">Buying &amp; selling</option>
+            <option value="Just curious">Just exploring</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="What are you hoping to do, and when?"></textarea>
+      </div>
+      <button type="submit" id="submitBtn">Send test lead</button>
+      <p class="status" id="status"></p>
+    </form>
+  </div>
+
+  <ul class="checklist">
+    <li>After sending, check the Google Sheet for a new row.</li>
+    <li>Check the inbox the script is configured to notify.</li>
+    <li>Once confirmed, the real site's form gets pointed at Cédric's own Sheet.</li>
+  </ul>
+
+  <footer>Submissions here go to a private test sheet, not Cédric's live one.</footer>
+</div>
+
+<script>
+  var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbycm5cImVm-ayKt6fJRC6ZKeedhFGR-NYnIzCT2ni-7HMz_06Kck4v4PybXLXdIIhZw/exec";
+
+  var form = document.getElementById("leadForm");
+  var statusEl = document.getElementById("status");
+  var btn = document.getElementById("submitBtn");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = "Sending…";
+    statusEl.className = "status";
+
+    fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      body: new FormData(form)
+    }).then(function () {
+      statusEl.textContent = "Sent — check the Sheet and inbox now.";
+      statusEl.className = "status show ok";
+      form.reset();
+    }).catch(function () {
+      statusEl.textContent = "Network error — the request didn't go out. Try again.";
+      statusEl.className = "status show err";
+    }).finally(function () {
+      btn.disabled = false;
+      btn.textContent = "Send test lead";
+    });
+  });
+</script>
