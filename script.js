@@ -111,7 +111,7 @@
     }, { passive: true });
   }
 
-  /* ---------- Contact form (AJAX submit to Formspree) ---------- */
+  /* ---------- Contact form (AJAX submit to Google Sheet via Apps Script) ---------- */
   var form = document.getElementById("contactForm");
   var statusEl = document.getElementById("formStatus");
   var submitBtn = document.getElementById("formSubmit");
@@ -125,32 +125,20 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      // Guard: remind to configure the endpoint before going live.
-      if (form.action.indexOf("YOUR_FORM_ID") !== -1) {
-        setStatus("Form not configured yet — add your Formspree form ID.", "error");
-        return;
-      }
-
       var btnText = submitBtn ? submitBtn.textContent : "";
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending…"; }
       setStatus("", "");
 
+      // Apps Script web apps don't return browser-readable CORS responses,
+      // so this is a fire-and-forget submit: we can't inspect success/failure
+      // from the response, only whether the request itself went out.
       fetch(form.action, {
         method: "POST",
-        body: new FormData(form),
-        headers: { "Accept": "application/json" }
-      }).then(function (response) {
-        if (response.ok) {
-          form.reset();
-          setStatus("Thank you — your message is on its way. I'll be in touch shortly.", "success");
-        } else {
-          return response.json().then(function (data) {
-            var msg = data && data.errors
-              ? data.errors.map(function (er) { return er.message; }).join(", ")
-              : "Something went wrong. Please try again or call me directly.";
-            setStatus(msg, "error");
-          });
-        }
+        mode: "no-cors",
+        body: new FormData(form)
+      }).then(function () {
+        form.reset();
+        setStatus("Thank you — your message is on its way. I'll be in touch shortly.", "success");
       }).catch(function () {
         setStatus("Network error. Please try again, or call/text (506) 233-2124.", "error");
       }).finally(function () {
