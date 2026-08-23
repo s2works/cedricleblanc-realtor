@@ -161,6 +161,16 @@
       padding: 4rem 1rem;
       font-size: 0.95rem;
     }
+    .error {
+      text-align: center;
+      color: #b91c1c;
+      background: rgba(220,38,38,0.06);
+      border: 1px solid rgba(220,38,38,0.2);
+      border-radius: 10px;
+      padding: 1.6rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
 
     .leads { display: grid; gap: 1rem; }
     .lead {
@@ -270,6 +280,7 @@
       </div>
       <div class="loading" id="loading">Loading leads…</div>
       <div class="empty" id="empty" style="display:none;">No leads yet.</div>
+      <div class="error" id="loadError" style="display:none;"></div>
       <div class="leads" id="leadsList"></div>
     </main>
   </div>
@@ -283,6 +294,7 @@
     var leadsList = document.getElementById("leadsList");
     var loadingEl = document.getElementById("loading");
     var emptyEl = document.getElementById("empty");
+    var errorEl = document.getElementById("loadError");
     var countEl = document.getElementById("count");
     var filterEl = document.getElementById("filterStatus");
     var logoutBtn = document.getElementById("logoutBtn");
@@ -402,38 +414,68 @@
 
     filterEl.addEventListener("change", render);
 
-    function loadLeads() {
-      loadingEl.style.display = "block";
-      fetch("/api/leads")
-        .then(function (r) {
-          if (r.status === 401) { showLogin(); throw new Error("unauth"); }
-          return r.json();
-        })
-        .then(function (data) {
-          loadingEl.style.display = "none";
+    function showLoadError(msg) {
+      leadsList.innerHTML = "";
+      emptyEl.style.display = "none";
+      errorEl.textContent = msg;
+      errorEl.style.display = "block";
+      countEl.textContent = "";
+    }
+    function clearLoadError() {
+      errorEl.style.display = "none";
+    }
+
+    function fetchAndRenderLeads() {
+      return fetch("/api/leads").then(function (r) {
+        if (r.status === 401) { showLogin(); return null; }
+        return r.text().then(function (text) {
+          var data;
+          try {
+            data = JSON.parse(text);
+          } catch (parseErr) {
+            throw new Error(
+              "The leads sheet didn't return valid data (likely the Apps Script wasn't redeployed after the last code update)."
+            );
+          }
+          if (!r.ok || data.error) {
+            throw new Error(data.error || "Request failed (HTTP " + r.status + ").");
+          }
+          clearLoadError();
           allLeads = (data.leads || []).filter(function (l) { return l.ID; });
           render();
+          return data;
+        });
+      });
+    }
+
+    function loadLeads() {
+      loadingEl.style.display = "block";
+      fetchAndRenderLeads()
+        .catch(function (err) {
+          showLoadError("Couldn't load leads: " + err.message);
         })
-        .catch(function () {
+        .finally(function () {
           loadingEl.style.display = "none";
         });
     }
 
     // Try loading straight away — if there's already a valid session cookie
     // from a previous visit, this skips the login screen entirely.
-    loadingEl.style.display = "none";
-    fetch("/api/leads")
-      .then(function (r) {
-        if (r.status === 401) { showLogin(); return null; }
-        showApp();
-        return r.json();
-      })
+    loadingEl.style.display = "block";
+    fetchAndRenderLeads()
       .then(function (data) {
-        if (!data) return;
-        allLeads = (data.leads || []).filter(function (l) { return l.ID; });
-        render();
+        if (data === null) return; // 401 — showLogin() already ran
+        showApp();
       })
-      .catch(function () { showLogin(); });
+      .catch(function (err) {
+        // We were logged in (past the 401 check) but the sheet/API failed —
+        // show the app shell with the error rather than bouncing to login.
+        showApp();
+        showLoadError("Couldn't load leads: " + err.message);
+      })
+      .finally(function () {
+        loadingEl.style.display = "none";
+      });
   </script>
 </body>
 </html>
