@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leads Dashboard · Cédric LeBlanc</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='10' fill='%2322252b'/%3E%3Ctext x='50' y='68' font-family='Arial,sans-serif' font-weight='700' font-size='46' fill='%2300acbc' text-anchor='middle'%3ECL%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --ink: #22252b;
+      --ink-soft: #2d3138;
+      --accent: #00acbc;
+      --accent-deep: #008c9a;
+      --cream: #efeeec;
+      --paper: #ffffff;
+      --text: #15171b;
+      --muted: #5b6066;
+      --line: rgba(15, 17, 20, 0.12);
+      --font-serif: "Oswald", "Arial Narrow", sans-serif;
+      --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--cream);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.55;
+    }
+    a { color: inherit; }
+
+    /* ---------- Login screen ---------- */
+    .login-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ink);
+      padding: 1.5rem;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 360px;
+      background: var(--paper);
+      border-radius: 12px;
+      padding: 2.2rem 2rem;
+      box-shadow: 0 24px 60px -28px rgba(0,0,0,0.5);
+    }
+    .login-card h1 {
+      font-family: var(--font-serif);
+      text-transform: uppercase;
+      font-size: 1.4rem;
+      margin: 0 0 0.3rem;
+    }
+    .login-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1.4rem; }
+    .login-card input {
+      width: 100%;
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0.75rem 0.9rem;
+      font-size: 16px;
+      font-family: var(--font-sans);
+      margin-bottom: 0.9rem;
+    }
+    .login-card input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,172,188,0.18);
+    }
+    .login-card button {
+      width: 100%;
+      background: var(--accent);
+      color: var(--ink);
+      border: 0;
+      border-radius: 6px;
+      padding: 0.85rem;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .login-card button:hover { background: var(--accent-deep); }
+    .login-error {
+      margin-top: 0.9rem;
+      font-size: 0.86rem;
+      color: #b91c1c;
+      display: none;
+    }
+    .login-error.show { display: block; }
+
+    /* ---------- Dashboard shell ---------- */
+    .app { display: none; }
+    .app.show { display: block; }
+
+    header.bar {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 1.1rem clamp(1.25rem, 4vw, 2.5rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    header.bar h1 {
+      font-family: var(--font-serif);
+      text-transform: uppercase;
+      font-size: 1.15rem;
+      margin: 0;
+      letter-spacing: 0.3px;
+    }
+    header.bar .sub { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(239,238,236,0.6); margin-top: 0.15rem; }
+    header.bar button {
+      background: transparent;
+      color: rgba(239,238,236,0.75);
+      border: 1px solid rgba(239,238,236,0.3);
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    header.bar button:hover { color: var(--paper); border-color: rgba(239,238,236,0.6); }
+
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.4rem;
+    }
+    .count { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+    .filter select {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0.5rem 0.8rem;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    .empty, .loading {
+      text-align: center;
+      color: var(--muted);
+      padding: 4rem 1rem;
+      font-size: 0.95rem;
+    }
+
+    .leads { display: grid; gap: 1rem; }
+    .lead {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 1.3rem 1.4rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: start;
+    }
+    .lead__main { min-width: 0; }
+    .lead__top {
+      display: flex;
+      align-items: baseline;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.4rem;
+    }
+    .lead__name { font-family: var(--font-serif); font-size: 1.2rem; text-transform: uppercase; }
+    .lead__time { font-size: 0.78rem; color: var(--muted); }
+    .lead__tag {
+      display: inline-block;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      background: rgba(0,172,188,0.1);
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+    }
+    .lead__contact { font-size: 0.9rem; color: var(--text); margin-bottom: 0.5rem; }
+    .lead__contact a { color: var(--accent-deep); font-weight: 600; }
+    .lead__contact a:hover { text-decoration: underline; }
+    .lead__contact span.sep { color: var(--line); margin: 0 0.5rem; }
+    .lead__msg { font-size: 0.9rem; color: var(--muted); white-space: pre-wrap; }
+
+    .lead__status select {
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0.55rem 0.7rem;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--text);
+      min-width: 150px;
+      cursor: pointer;
+    }
+    .lead__status select:focus { outline: none; border-color: var(--accent); }
+    .lead__saved {
+      font-size: 0.72rem;
+      color: var(--accent-deep);
+      font-weight: 700;
+      margin-top: 0.4rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      text-align: right;
+    }
+    .lead__saved.show { opacity: 1; }
+
+    @media (max-width: 560px) {
+      .lead { grid-template-columns: 1fr; }
+      .lead__status { display: flex; justify-content: space-between; align-items: center; }
+      .lead__status select { min-width: 0; flex: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-wrap" id="loginWrap">
+    <div class="login-card">
+      <h1>Leads Dashboard</h1>
+      <p>Enter the dashboard password to view leads.</p>
+      <form id="loginForm">
+        <input type="password" id="password" placeholder="Password" autocomplete="current-password" required />
+        <button type="submit">Log in</button>
+      </form>
+      <p class="login-error" id="loginError"></p>
+    </div>
+  </div>
+
+  <div class="app" id="app">
+    <header class="bar">
+      <div>
+        <h1>Leads</h1>
+        <div class="sub">Cédric LeBlanc · Website</div>
+      </div>
+      <button type="button" id="logoutBtn">Log out</button>
+    </header>
+    <main>
+      <div class="toolbar">
+        <span class="count" id="count"></span>
+        <div class="filter">
+          <select id="filterStatus">
+            <option value="">All statuses</option>
+            <option>New</option>
+            <option>Contacted</option>
+            <option>Follow Up</option>
+            <option>Under Contract</option>
+            <option>Closed (Won)</option>
+            <option>Closed (Lost)</option>
+          </select>
+        </div>
+      </div>
+      <div class="loading" id="loading">Loading leads…</div>
+      <div class="empty" id="empty" style="display:none;">No leads yet.</div>
+      <div class="leads" id="leadsList"></div>
+    </main>
+  </div>
+
+  <script>
+    var STATUS_OPTIONS = ["New", "Contacted", "Follow Up", "Under Contract", "Closed (Won)", "Closed (Lost)"];
+    var loginWrap = document.getElementById("loginWrap");
+    var app = document.getElementById("app");
+    var loginForm = document.getElementById("loginForm");
+    var loginError = document.getElementById("loginError");
+    var leadsList = document.getElementById("leadsList");
+    var loadingEl = document.getElementById("loading");
+    var emptyEl = document.getElementById("empty");
+    var countEl = document.getElementById("count");
+    var filterEl = document.getElementById("filterStatus");
+    var logoutBtn = document.getElementById("logoutBtn");
+
+    var allLeads = [];
+
+    function showApp() {
+      loginWrap.style.display = "none";
+      app.className = "app show";
+    }
+    function showLogin(msg) {
+      app.className = "app";
+      loginWrap.style.display = "flex";
+      if (msg) {
+        loginError.textContent = msg;
+        loginError.className = "login-error show";
+      }
+    }
+
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      loginError.className = "login-error";
+      fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: document.getElementById("password").value })
+      })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          if (res.ok) { showApp(); loadLeads(); }
+          else { loginError.textContent = res.d.error || "Login failed."; loginError.className = "login-error show"; }
+        })
+        .catch(function () { loginError.textContent = "Network error."; loginError.className = "login-error show"; });
+    });
+
+    logoutBtn.addEventListener("click", function () {
+      document.cookie = "cl_session=; Path=/; Max-Age=0";
+      showLogin();
+    });
+
+    function timeAgo(iso) {
+      var d = new Date(iso);
+      if (isNaN(d.getTime())) return iso || "";
+      return d.toLocaleString("en-CA", { dateStyle: "medium", timeStyle: "short" });
+    }
+
+    function statusOptionsHtml(current) {
+      return STATUS_OPTIONS.map(function (s) {
+        return '<option' + (s === current ? " selected" : "") + '>' + s + "</option>";
+      }).join("");
+    }
+
+    function esc(s) {
+      return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+
+    function render() {
+      var filter = filterEl.value;
+      var items = filter ? allLeads.filter(function (l) { return l.Status === filter; }) : allLeads;
+
+      countEl.textContent = items.length + (items.length === 1 ? " lead" : " leads") +
+        (filter ? " (filtered)" : "");
+
+      if (!items.length) {
+        leadsList.innerHTML = "";
+        emptyEl.style.display = "block";
+        return;
+      }
+      emptyEl.style.display = "none";
+
+      leadsList.innerHTML = items.map(function (l) {
+        var id = esc(l.ID);
+        return (
+          '<article class="lead" data-id="' + id + '">' +
+            '<div class="lead__main">' +
+              '<div class="lead__top">' +
+                '<span class="lead__name">' + esc(l.Name || "Unnamed") + "</span>" +
+                '<span class="lead__tag">' + esc(l["Interested In"] || "—") + "</span>" +
+                '<span class="lead__time">' + timeAgo(l.Timestamp) + "</span>" +
+              "</div>" +
+              '<div class="lead__contact">' +
+                (l.Email ? '<a href="mailto:' + esc(l.Email) + '">' + esc(l.Email) + "</a>" : "") +
+                (l.Email && l.Phone ? '<span class="sep">·</span>' : "") +
+                (l.Phone ? '<a href="tel:' + esc(l.Phone) + '">' + esc(l.Phone) + "</a>" : "") +
+              "</div>" +
+              (l.Message ? '<div class="lead__msg">' + esc(l.Message) + "</div>" : "") +
+            "</div>" +
+            '<div class="lead__status">' +
+              '<select data-id="' + id + '">' + statusOptionsHtml(l.Status) + "</select>" +
+              '<div class="lead__saved">Saved</div>' +
+            "</div>" +
+          "</article>"
+        );
+      }).join("");
+
+      leadsList.querySelectorAll("select").forEach(function (sel) {
+        sel.addEventListener("change", function () {
+          var id = sel.getAttribute("data-id");
+          var status = sel.value;
+          var savedEl = sel.closest(".lead__status").querySelector(".lead__saved");
+          fetch("/api/leads", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: id, status: status })
+          }).then(function (r) {
+            if (r.status === 401) { showLogin(); return; }
+            var lead = allLeads.filter(function (l) { return l.ID === id; })[0];
+            if (lead) lead.Status = status;
+            savedEl.className = "lead__saved show";
+            setTimeout(function () { savedEl.className = "lead__saved"; }, 1600);
+          });
+        });
+      });
+    }
+
+    filterEl.addEventListener("change", render);
+
+    function loadLeads() {
+      loadingEl.style.display = "block";
+      fetch("/api/leads")
+        .then(function (r) {
+          if (r.status === 401) { showLogin(); throw new Error("unauth"); }
+          return r.json();
+        })
+        .then(function (data) {
+          loadingEl.style.display = "none";
+          allLeads = (data.leads || []).filter(function (l) { return l.ID; });
+          render();
+        })
+        .catch(function () {
+          loadingEl.style.display = "none";
+        });
+    }
+
+    // Try loading straight away — if there's already a valid session cookie
+    // from a previous visit, this skips the login screen entirely.
+    loadingEl.style.display = "none";
+    fetch("/api/leads")
+      .then(function (r) {
+        if (r.status === 401) { showLogin(); return null; }
+        showApp();
+        return r.json();
+      })
+      .then(function (data) {
+        if (!data) return;
+        allLeads = (data.leads || []).filter(function (l) { return l.ID; });
+        render();
+      })
+      .catch(function () { showLogin(); });
+  </script>
+</body>
+</html>
