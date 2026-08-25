@@ -733,7 +733,7 @@ body.menu-open::before {
   display: flex;
   gap: 1.6rem;
   width: max-content;
-  padding: 0.75rem 0 1rem;
+  padding: 1rem 0 2.75rem;
   animation: reviews-scroll var(--reviews-duration, 45s) linear infinite;
 }
 
