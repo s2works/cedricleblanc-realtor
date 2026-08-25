@@ -383,45 +383,28 @@
     load();
   }
 
-  /* ---------- Reviews carousel (static cards, click-to-advance, wraps) ---------- */
-  var reviewsGrid = document.getElementById("reviewsGrid");
-  if (reviewsGrid) {
-    var reviewsPrev = document.getElementById("reviewsPrev");
-    var reviewsNext = document.getElementById("reviewsNext");
+  /* ---------- Reviews marquee (continuous auto-scroll, no hover/click needed) ---------- */
+  var reviewsTrack = document.getElementById("reviewsTrack");
+  if (reviewsTrack) {
+    // Duplicate the original card set once so translating the track exactly
+    // -50% loops seamlessly, forever, in one direction.
+    var originalReviews = Array.prototype.slice.call(reviewsTrack.children);
+    originalReviews.forEach(function (card) {
+      var clone = card.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      reviewsTrack.appendChild(clone);
+    });
 
-    function reviewsMaxScroll() { return reviewsGrid.scrollWidth - reviewsGrid.clientWidth; }
-
-    function updateReviewsEdges() {
-      if (!reviewsPrev || !reviewsNext) return;
-      var overflow = reviewsMaxScroll() > 4;
-      reviewsPrev.hidden = !overflow;
-      reviewsNext.hidden = !overflow;
+    // Keep a constant visual speed (px/sec) regardless of how many review
+    // cards exist, by sizing the animation duration to the track's width.
+    var REVIEWS_SPEED_PX_PER_SEC = 40;
+    function sizeReviewsMarquee() {
+      var setWidth = reviewsTrack.scrollWidth / 2;
+      var duration = setWidth / REVIEWS_SPEED_PX_PER_SEC;
+      reviewsTrack.style.setProperty("--reviews-duration", duration + "s");
     }
-
-    function reviewCardStep() {
-      var first = reviewsGrid.querySelector(".review");
-      if (!first) return reviewsGrid.clientWidth;
-      var gap = parseFloat(getComputedStyle(reviewsGrid).columnGap) || 0;
-      return first.getBoundingClientRect().width + gap;
-    }
-
-    if (reviewsPrev && reviewsNext) {
-      [["prev", reviewsPrev, -1], ["next", reviewsNext, 1]].forEach(function (cfg) {
-        var btn = cfg[1], dir = cfg[2];
-        btn.addEventListener("click", function () {
-          var max = reviewsMaxScroll();
-          if (dir < 0 && reviewsGrid.scrollLeft <= 2) {
-            reviewsGrid.scrollTo({ left: max, behavior: "smooth" });
-          } else if (dir > 0 && reviewsGrid.scrollLeft >= max - 2) {
-            reviewsGrid.scrollTo({ left: 0, behavior: "smooth" });
-          } else {
-            reviewsGrid.scrollBy({ left: dir * reviewCardStep(), behavior: "smooth" });
-          }
-        });
-      });
-      updateReviewsEdges();
-      window.addEventListener("resize", updateReviewsEdges);
-    }
+    sizeReviewsMarquee();
+    window.addEventListener("resize", sizeReviewsMarquee);
   }
 
 })();
