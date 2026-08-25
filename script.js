@@ -169,6 +169,14 @@
       { status: "Active", price: "289000", address: "9 Coverdale Court", city: "Riverview, NB", beds: "3", baths: "2", sqft: "1,540", image: "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=900&q=70", link: "https://www.exitmoncton.ca/Cedric-LeBlanc" }
     ];
 
+    // DRAFT placeholder data for the "Land & Lots" carousel — shown until
+    // the sheet has real rows with Type = "Lot" (or Land/Acreage/Vacant).
+    var SAMPLE_LOTS = [
+      { status: "Active", type: "Lot", price: "79900", address: "Lot 14, Chemin Belliveau", city: "Rogersville, NB", lotSize: "1.2 acres", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=70", link: "https://www.exitmoncton.ca/Cedric-LeBlanc" },
+      { status: "Active", type: "Vacant Land", price: "54900", address: "Lot 6, Route 126", city: "Shediac, NB", lotSize: "0.75 acres", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=70", link: "https://www.exitmoncton.ca/Cedric-LeBlanc" },
+      { status: "Pending", type: "Lot", price: "112000", address: "Lot 3, Rue Amirault", city: "Dieppe, NB", lotSize: "2.4 acres", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=70", link: "https://www.exitmoncton.ca/Cedric-LeBlanc" }
+    ];
+
     function esc(s) {
       return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
         return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -215,6 +223,7 @@
       if (it.beds)  specs.push("<li>" + esc(it.beds) + " bd</li>");
       if (it.baths) specs.push("<li>" + esc(it.baths) + " ba</li>");
       if (it.sqft)  specs.push("<li>" + esc(it.sqft) + " sq ft</li>");
+      if (it.lotSize) specs.push("<li>" + esc(it.lotSize) + "</li>");
       var img = normalizeImg(it.image) || FALLBACK_IMG;
       var hasLink = !!it.link;
       var openTag = hasLink
@@ -246,55 +255,80 @@
         "</article>";
     }
 
-    function render(items) {
-      listingsGrid.setAttribute("aria-busy", "false");
-      if (!items || !items.length) {
-        listingsGrid.innerHTML = "";
-        if (emptyEl) emptyEl.hidden = false;
-        return;
+    /* ----- Carousel: click arrows advance one card, wrapping at either end -----
+       Draft: wired as a reusable helper so the "Homes" and "Lots" carousels
+       (and their empty states) can each get their own instance. ----- */
+    function makeCarousel(grid, prevBtn, nextBtn, emptyEl) {
+      function maxScroll() { return grid.scrollWidth - grid.clientWidth; }
+
+      // Arrows stay visible the whole time there's anything to scroll through —
+      // navigation wraps around, so there's no "start" or "end" to hide them at.
+      function updateEdges() {
+        if (!prevBtn || !nextBtn) return;
+        var overflow = maxScroll() > 4;
+        prevBtn.hidden = !overflow;
+        nextBtn.hidden = !overflow;
       }
-      if (emptyEl) emptyEl.hidden = true;
-      listingsGrid.innerHTML = items.map(card).join("");
-      updateEdges();
-    }
 
-    /* ----- Carousel: click arrows advance one card, wrapping at either end ----- */
-    var prevBtn = document.getElementById("listingsPrev");
-    var nextBtn = document.getElementById("listingsNext");
+      function cardStep() {
+        var first = grid.querySelector(".listing");
+        if (!first) return grid.clientWidth;
+        var gap = parseFloat(getComputedStyle(grid).columnGap) || 0;
+        return first.getBoundingClientRect().width + gap;
+      }
 
-    function maxScroll() { return listingsGrid.scrollWidth - listingsGrid.clientWidth; }
-
-    // Arrows stay visible the whole time there's anything to scroll through —
-    // navigation wraps around, so there's no "start" or "end" to hide them at.
-    function updateEdges() {
-      if (!prevBtn || !nextBtn) return;
-      var overflow = maxScroll() > 4;
-      prevBtn.hidden = !overflow;
-      nextBtn.hidden = !overflow;
-    }
-
-    function cardStep() {
-      var first = listingsGrid.querySelector(".listing");
-      if (!first) return listingsGrid.clientWidth;
-      var gap = parseFloat(getComputedStyle(listingsGrid).columnGap) || 0;
-      return first.getBoundingClientRect().width + gap;
-    }
-
-    if (prevBtn && nextBtn) {
-      [["prev", prevBtn, -1], ["next", nextBtn, 1]].forEach(function (cfg) {
-        var btn = cfg[1], dir = cfg[2];
-        btn.addEventListener("click", function () {
-          var max = maxScroll();
-          if (dir < 0 && listingsGrid.scrollLeft <= 2) {
-            listingsGrid.scrollTo({ left: max, behavior: "smooth" });
-          } else if (dir > 0 && listingsGrid.scrollLeft >= max - 2) {
-            listingsGrid.scrollTo({ left: 0, behavior: "smooth" });
-          } else {
-            listingsGrid.scrollBy({ left: dir * cardStep(), behavior: "smooth" });
-          }
+      if (prevBtn && nextBtn) {
+        [["prev", prevBtn, -1], ["next", nextBtn, 1]].forEach(function (cfg) {
+          var btn = cfg[1], dir = cfg[2];
+          btn.addEventListener("click", function () {
+            var max = maxScroll();
+            if (dir < 0 && grid.scrollLeft <= 2) {
+              grid.scrollTo({ left: max, behavior: "smooth" });
+            } else if (dir > 0 && grid.scrollLeft >= max - 2) {
+              grid.scrollTo({ left: 0, behavior: "smooth" });
+            } else {
+              grid.scrollBy({ left: dir * cardStep(), behavior: "smooth" });
+            }
+          });
         });
-      });
-      window.addEventListener("resize", updateEdges);
+        window.addEventListener("resize", updateEdges);
+      }
+
+      function render(items) {
+        grid.setAttribute("aria-busy", "false");
+        if (!items || !items.length) {
+          grid.innerHTML = "";
+          if (emptyEl) emptyEl.hidden = false;
+          return;
+        }
+        if (emptyEl) emptyEl.hidden = true;
+        grid.innerHTML = items.map(card).join("");
+        updateEdges();
+      }
+
+      return { render: render };
+    }
+
+    var propertiesCarousel = makeCarousel(listingsGrid, document.getElementById("listingsPrev"), document.getElementById("listingsNext"), emptyEl);
+
+    var lotsGrid = document.getElementById("lotsGrid");
+    var lotsCarousel = lotsGrid
+      ? makeCarousel(lotsGrid, document.getElementById("lotsPrev"), document.getElementById("lotsNext"), document.getElementById("lotsEmpty"))
+      : null;
+
+    // A row counts as a "lot" when its Type column mentions land/lot(s)/acreage.
+    function isLotType(it) { return /\b(lot|lots|land|acreage|vacant)\b/i.test(it.type || ""); }
+
+    function render(items) {
+      items = items || [];
+      var properties = items.filter(function (it) { return !isLotType(it); });
+      var lots = items.filter(isLotType);
+      propertiesCarousel.render(properties);
+      if (lotsCarousel) {
+        // No "Lot"-typed rows in the sheet yet — show placeholder lots so
+        // the draft layout is visible rather than an empty carousel.
+        lotsCarousel.render(lots.length ? lots : SAMPLE_LOTS);
+      }
     }
 
     // Minimal RFC-4180-ish CSV parser (handles quoted commas + newlines).
@@ -337,6 +371,7 @@
         beds:     idx(["beds", "bedrooms", "bed"]),
         baths:    idx(["baths", "bathrooms", "bath"]),
         sqft:     idx(["sqft", "sq ft", "size", "square feet"]),
+        lotSize:  idx(["lot size", "lotsize", "acreage", "acres", "lot"]),
         image:    idx(["image", "photo", "image url", "photo url"]),
         link:     idx(["link", "url", "details"]),
         featured: idx(["featured", "show"]),
@@ -356,7 +391,7 @@
           status: get(col.status), type: get(col.type), price: price, address: address,
           city: get(col.city), province: get(col.province), postal: get(col.postal),
           beds: get(col.beds), baths: get(col.baths),
-          sqft: get(col.sqft), image: get(col.image), link: normalizeLink(get(col.link)),
+          sqft: get(col.sqft), lotSize: get(col.lotSize), image: get(col.image), link: normalizeLink(get(col.link)),
           order: col.order !== -1 ? parseFloat(get(col.order)) : NaN
         });
       }
