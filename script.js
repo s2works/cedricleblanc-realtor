@@ -383,4 +383,45 @@
     load();
   }
 
+  /* ---------- Reviews carousel (static cards, click-to-advance, wraps) ---------- */
+  var reviewsGrid = document.getElementById("reviewsGrid");
+  if (reviewsGrid) {
+    var reviewsPrev = document.getElementById("reviewsPrev");
+    var reviewsNext = document.getElementById("reviewsNext");
+
+    function reviewsMaxScroll() { return reviewsGrid.scrollWidth - reviewsGrid.clientWidth; }
+
+    function updateReviewsEdges() {
+      if (!reviewsPrev || !reviewsNext) return;
+      var overflow = reviewsMaxScroll() > 4;
+      reviewsPrev.hidden = !overflow;
+      reviewsNext.hidden = !overflow;
+    }
+
+    function reviewCardStep() {
+      var first = reviewsGrid.querySelector(".review");
+      if (!first) return reviewsGrid.clientWidth;
+      var gap = parseFloat(getComputedStyle(reviewsGrid).columnGap) || 0;
+      return first.getBoundingClientRect().width + gap;
+    }
+
+    if (reviewsPrev && reviewsNext) {
+      [["prev", reviewsPrev, -1], ["next", reviewsNext, 1]].forEach(function (cfg) {
+        var btn = cfg[1], dir = cfg[2];
+        btn.addEventListener("click", function () {
+          var max = reviewsMaxScroll();
+          if (dir < 0 && reviewsGrid.scrollLeft <= 2) {
+            reviewsGrid.scrollTo({ left: max, behavior: "smooth" });
+          } else if (dir > 0 && reviewsGrid.scrollLeft >= max - 2) {
+            reviewsGrid.scrollTo({ left: 0, behavior: "smooth" });
+          } else {
+            reviewsGrid.scrollBy({ left: dir * reviewCardStep(), behavior: "smooth" });
+          }
+        });
+      });
+      updateReviewsEdges();
+      window.addEventListener("resize", updateReviewsEdges);
+    }
+  }
+
 })();
