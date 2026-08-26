@@ -449,6 +449,22 @@ body.menu-open::before {
 .listings__note a { color: var(--accent-deep); font-weight: 700; }
 .listings__note a:hover { text-decoration: underline; }
 
+/* Draft: two stacked carousels (Homes / Lots) instead of one combined feed */
+.listings__group + .listings__group { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+.listings__subhead {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  margin: 0 0 0.4rem;
+}
+.listings__subhead::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
 .carousel { position: relative; display: flex; align-items: center; gap: 0.5rem; }
 .carousel__viewport { overflow: hidden; flex: 1; padding: 0.5rem; margin: -0.5rem; }
 .carousel__track {

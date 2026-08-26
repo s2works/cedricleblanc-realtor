@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260825-29" />
+  <link rel="stylesheet" href="styles.css?v=20260825-draft-lots" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='10' fill='%2322252b'/%3E%3Ctext x='50' y='68' font-family='Arial,sans-serif' font-weight='700' font-size='46' fill='%2300acbc' text-anchor='middle'%3ECL%3C/text%3E%3C/svg%3E" />
 </head>
 <body>
@@ -225,17 +225,33 @@
       </p>
     </div>
 
-    <div class="listings__carousel" id="listingsCarousel">
-      <div class="listings__grid" id="listingsGrid" aria-live="polite" aria-busy="true">
-        <!-- cards injected by script.js from the published Google Sheet -->
+    <div class="listings__group">
+      <h3 class="listings__subhead">Homes for Sale</h3>
+      <div class="listings__carousel" id="listingsCarousel">
+        <div class="listings__grid" id="listingsGrid" aria-live="polite" aria-busy="true">
+          <!-- cards injected by script.js from the published Google Sheet -->
+        </div>
+        <button class="listings__edge listings__edge--prev" id="listingsPrev" type="button" aria-label="Scroll to previous homes" hidden></button>
+        <button class="listings__edge listings__edge--next" id="listingsNext" type="button" aria-label="Scroll to more homes" hidden></button>
       </div>
-      <button class="listings__edge listings__edge--prev" id="listingsPrev" type="button" aria-label="Scroll to previous listings" hidden></button>
-      <button class="listings__edge listings__edge--next" id="listingsNext" type="button" aria-label="Scroll to more listings" hidden></button>
+      <p class="listings__empty reveal" id="listingsEmpty" hidden>
+        New listings are on the way — please check back soon.
+      </p>
     </div>
 
-    <p class="listings__empty reveal" id="listingsEmpty" hidden>
-      New listings are on the way — please check back soon.
-    </p>
+    <div class="listings__group">
+      <h3 class="listings__subhead">Land &amp; Lots</h3>
+      <div class="listings__carousel" id="lotsCarousel">
+        <div class="listings__grid" id="lotsGrid" aria-live="polite" aria-busy="true">
+          <!-- cards injected by script.js from the published Google Sheet -->
+        </div>
+        <button class="listings__edge listings__edge--prev" id="lotsPrev" type="button" aria-label="Scroll to previous lots" hidden></button>
+        <button class="listings__edge listings__edge--next" id="lotsNext" type="button" aria-label="Scroll to more lots" hidden></button>
+      </div>
+      <p class="listings__empty reveal" id="lotsEmpty" hidden>
+        New lots are on the way — please check back soon.
+      </p>
+    </div>
   </section>
 
   <!-- ===== Current listings CTA ===== -->
@@ -436,6 +452,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=20260825-28"></script>
+  <script src="script.js?v=20260825-draft-lots"></script>
 </body>
 </html>
