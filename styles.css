@@ -798,10 +798,16 @@ body.menu-open::before {
 /* ---------- Listings: small "view more" links (replaces the old boxed CTA) ---------- */
 .listings__more {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+.listings__more-eyebrow { justify-content: center; margin-bottom: 1.1rem; }
+.listings__more-links {
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.7rem;
-  margin-top: clamp(2.5rem, 5vw, 3.5rem);
 }
 .listings__more-link {
   display: inline-flex;
