@@ -116,6 +116,25 @@
   var statusEl = document.getElementById("formStatus");
   var submitBtn = document.getElementById("formSubmit");
 
+  // Timeline question only makes sense for buyers/sellers — hide it (and
+  // disable it, so it's left out of the submission) for other interests.
+  var interestSelect = document.getElementById("interest");
+  var timelineField = document.getElementById("timelineField");
+  var timelineSelect = document.getElementById("timeline");
+  var TIMELINE_INTERESTS = ["Buying", "Selling", "Both"];
+
+  function updateTimelineVisibility() {
+    if (!interestSelect || !timelineField || !timelineSelect) return;
+    var show = TIMELINE_INTERESTS.indexOf(interestSelect.value) !== -1;
+    timelineField.hidden = !show;
+    timelineSelect.disabled = !show;
+  }
+
+  if (interestSelect) {
+    interestSelect.addEventListener("change", updateTimelineVisibility);
+    updateTimelineVisibility();
+  }
+
   if (form && statusEl) {
     function setStatus(msg, type) {
       statusEl.textContent = msg;
@@ -138,6 +157,7 @@
         body: new FormData(form)
       }).then(function () {
         form.reset();
+        updateTimelineVisibility();
         setStatus("Thank you — your message is on its way. I'll be in touch shortly.", "success");
       }).catch(function () {
         setStatus("Network error. Please try again, or call/text (506) 233-2124.", "error");

@@ -204,6 +204,7 @@
       padding: 0.2rem 0.55rem;
       border-radius: 100px;
     }
+    .lead__tag--timeline { color: var(--muted); background: rgba(21,23,27,0.06); }
     .lead__contact { font-size: 0.9rem; color: var(--text); margin-bottom: 0.5rem; }
     .lead__contact a { color: var(--accent-deep); font-weight: 600; }
     .lead__contact a:hover { text-decoration: underline; }
@@ -375,6 +376,7 @@
               '<div class="lead__top">' +
                 '<span class="lead__name">' + esc(l.Name || "Unnamed") + "</span>" +
                 '<span class="lead__tag">' + esc(l["Interested In"] || "—") + "</span>" +
+                (l.Timeline ? '<span class="lead__tag lead__tag--timeline">' + esc(l.Timeline) + "</span>" : "") +
                 '<span class="lead__time">' + timeAgo(l.Timestamp) + "</span>" +
               "</div>" +
               '<div class="lead__contact">' +
