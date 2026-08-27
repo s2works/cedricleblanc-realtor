@@ -231,8 +231,7 @@ body.menu-open::before {
   color: var(--paper) !important;
   padding: 0.6rem 1.4rem;
   border-radius: 6px;
-  font-family: var(--font-serif);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-size: 0.82rem;
@@ -1137,7 +1136,7 @@ body.menu-open::before {
     align-self: stretch;
     text-align: center;
     margin-top: 0.6rem;
-    font-family: var(--font-serif) !important;
+    font-family: var(--font-sans) !important;
   }
   .nav__toggle { display: flex; z-index: 950; }
   .listings__head { text-align: center; }
