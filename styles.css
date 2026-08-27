@@ -744,6 +744,21 @@ body.menu-open::before {
 }
 
 .reviews__cta { text-align: center; margin-top: clamp(1.5rem, 3vw, 2.25rem); }
+.reviews__cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 100px;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: transform 0.3s var(--ease), background 0.3s var(--ease);
+}
+.reviews__cta-link:hover { background: var(--ink-soft); transform: translateY(-3px); }
 
 /* Continuous auto-scrolling marquee: the track holds the review cards once
    in markup; script.js clones that set so translating -50% loops seamlessly. */
