@@ -375,7 +375,7 @@ body.menu-open::before {
 }
 .about__badge-logo { width: 116px; height: auto; display: block; }
 
-.about__body p { color: var(--text); margin: 0 0 1.1rem; max-width: 56ch; }
+.about__body p:not(.eyebrow) { color: var(--text); margin: 0 0 1.1rem; max-width: 56ch; }
 .about__list {
   display: grid;
   grid-template-columns: 1fr 1fr;
