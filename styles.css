@@ -743,6 +743,8 @@ body.menu-open::before {
   -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
 }
 
+.reviews__cta { text-align: center; margin-top: clamp(1.5rem, 3vw, 2.25rem); }
+
 /* Continuous auto-scrolling marquee: the track holds the review cards once
    in markup; script.js clones that set so translating -50% loops seamlessly. */
 .reviews__track {
