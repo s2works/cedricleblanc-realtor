@@ -829,71 +829,6 @@ body.menu-open::before {
   transform: translateY(-2px);
 }
 
-/* ---------- Areas banner (dark photo backdrop) ---------- */
-.areas-banner {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  padding: clamp(4.5rem, 10vw, 8rem) clamp(1.25rem, 5vw, 4rem);
-  background:
-    linear-gradient(120deg, rgba(34,37,43,0.93), rgba(34,37,43,0.8)),
-    url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=70") center/cover no-repeat;
-}
-.areas-banner__overlay {
-  position: absolute; inset: 0; z-index: -1;
-  background: radial-gradient(circle at 80% 20%, rgba(0,172,188,0.18), transparent 55%);
-}
-.areas-banner__inner {
-  max-width: 760px;
-  margin-inline: auto;
-  text-align: center;
-  color: var(--paper);
-}
-.areas-banner__inner .eyebrow { display: inline-flex; }
-.areas-banner__lead {
-  color: rgba(255,255,255,0.82);
-  font-size: clamp(1.02rem, 1.6vw, 1.18rem);
-  max-width: 56ch;
-  margin: 0 auto;
-}
-
-/* ---------- Areas ---------- */
-.areas { background: var(--cream-2); max-width: none; }
-.areas__grid {
-  max-width: var(--container);
-  margin-inline: auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem;
-}
-.area {
-  position: relative;
-  border-radius: var(--radius);
-  overflow: hidden;
-  min-height: 280px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 1.6rem;
-  color: var(--paper);
-  background: var(--ink-soft);
-  isolation: isolate;
-}
-.area::before {
-  content: "";
-  position: absolute; inset: 0; z-index: -2;
-  background: var(--bg) center/cover no-repeat;
-  transition: transform 0.9s var(--ease);
-}
-.area::after {
-  content: "";
-  position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(to top, rgba(34,37,43,0.88) 5%, rgba(34,37,43,0.15) 70%);
-}
-.area:hover::before { transform: scale(1.1); }
-.area h3 { font-size: 1.9rem; text-transform: uppercase; }
-.area span { font-size: 0.9rem; color: rgba(255,255,255,0.82); }
-
 /* ---------- Approach (dark timeline) ---------- */
 .approach { background: var(--ink); color: var(--cream); max-width: none; }
 .approach__head { max-width: var(--container); margin: 0 auto 3.5rem; text-align: center; }
@@ -1161,7 +1096,6 @@ body.menu-open::before {
   .nav__toggle { display: flex; z-index: 950; }
   .listings__head { text-align: center; }
   .carousel__arrow { display: none; }
-  .areas__grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 520px) {
