@@ -731,7 +731,7 @@ body.menu-open::before {
 }
 
 /* ---------- Reviews ---------- */
-.reviews.section { padding-top: clamp(2.25rem, 4.5vw, 4rem); }
+.reviews.section { padding-top: clamp(2.25rem, 4.5vw, 4rem); padding-bottom: clamp(2.5rem, 5vw, 4.5rem); }
 .reviews__head { max-width: 720px; margin: 0 auto 2.6rem; text-align: center; }
 .reviews__head .section__title { margin-bottom: 0; }
 
