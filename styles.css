@@ -925,6 +925,7 @@ body.menu-open::before {
 }
 .services__card {
   display: block;
+  position: relative;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -932,6 +933,21 @@ body.menu-open::before {
   transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
 }
 .services__card:hover { transform: translateY(-6px); box-shadow: var(--shadow-sm); }
+.services__arrow {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.4rem;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--muted);
+  opacity: 0.5;
+  transition: transform 0.35s var(--ease), opacity 0.35s var(--ease), color 0.35s var(--ease);
+}
+.services__card:hover .services__arrow {
+  opacity: 1;
+  color: var(--accent);
+  transform: translate(3px, -3px);
+}
 .services__icon {
   width: 2.6rem;
   height: 2.6rem;
