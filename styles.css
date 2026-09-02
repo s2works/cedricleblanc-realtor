@@ -924,6 +924,7 @@ body.menu-open::before {
   gap: 1.4rem;
 }
 .services__card {
+  display: block;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--radius);
