@@ -935,18 +935,22 @@ body.menu-open::before {
 .services__card:hover { transform: translateY(-6px); box-shadow: var(--shadow-sm); }
 .services__arrow {
   position: absolute;
-  top: 1.4rem;
+  bottom: 1.4rem;
   right: 1.4rem;
   font-size: 1.1rem;
   line-height: 1;
-  color: var(--muted);
-  opacity: 0.5;
-  transition: transform 0.35s var(--ease), opacity 0.35s var(--ease), color 0.35s var(--ease);
-}
-.services__card:hover .services__arrow {
-  opacity: 1;
   color: var(--accent);
-  transform: translate(3px, -3px);
+  opacity: 0;
+  transform: translate(-3px, 3px);
+  transition: transform 0.35s var(--ease), opacity 0.35s var(--ease);
+}
+.services__card:hover .services__arrow,
+.services__card:focus-visible .services__arrow {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+@media (hover: none) {
+  .services__arrow { opacity: 1; transform: translate(0, 0); }
 }
 .services__icon {
   width: 2.6rem;
