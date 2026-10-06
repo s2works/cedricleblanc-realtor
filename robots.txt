@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cedricleblancrealtor.ca/sitemap.xml
+Sitemap: https://www.cedricleblancrealtor.ca/sitemap.xml
